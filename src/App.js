@@ -1,19 +1,14 @@
 import React, { Component } from "react";
-import Axios from "axios";
+import { BrowserRouter, Route } from "react-router-dom";
+import LandingPage from "./components/LandingPage";
 
 class App extends Component {
-  componentDidMount() {
-    Axios.get("https://api.covid19india.org/data.json")
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-  }
-
   render() {
-    return <div>CovidTracker</div>;
+    return (
+      <BrowserRouter>
+        <Route path="/" component={LandingPage} />
+      </BrowserRouter>
+    );
   }
 }
 
