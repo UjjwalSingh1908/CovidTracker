@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import { Table, Button } from "react-bootstrap";
+import { Container, Row, Col, Table } from "react-bootstrap";
+import "./styles.css";
+
 class RecordTable extends Component {
   state = {
     statewise: [],
@@ -9,7 +11,7 @@ class RecordTable extends Component {
   componentDidMount() {
     Axios.get("https://api.covid19india.org/data.json")
       .then((res) => {
-        //console.log(res);
+        console.log(res);
         this.setState({ statewise: res.data.statewise });
       })
       .catch((err) => {
@@ -19,6 +21,8 @@ class RecordTable extends Component {
 
   render() {
     const data = this.state.statewise;
+    let total = { ...data[0] };
+    console.log(total.active);
     data.shift();
     const TableRow = data.map((data, key) => {
       return (
@@ -33,19 +37,28 @@ class RecordTable extends Component {
       );
     });
     return (
-      <Table striped bordered hover variant="dark">
-        <thead>
-          <tr>
-            <th>DATE &amp; TIME</th>
-            <th>STATE</th>
-            <th>CONFIRMED</th>
-            <th>ACTIVE</th>
-            <th>RECOVERED</th>
-            <th>DEATHS</th>
-          </tr>
-        </thead>
-        <tbody>{TableRow}</tbody>
-      </Table>
+      <div className="cont">
+        <Container fluid>
+          <Row>
+            <Col xs={{ span: "10", offset: "1" }}>
+              <div className="heading">STATEWISE DATA</div>
+              <Table striped bordered hover variant="dark">
+                <thead>
+                  <tr>
+                    <th>DATE &amp; TIME</th>
+                    <th>STATE</th>
+                    <th>CONFIRMED</th>
+                    <th>ACTIVE</th>
+                    <th>RECOVERED</th>
+                    <th>DEATHS</th>
+                  </tr>
+                </thead>
+                <tbody>{TableRow}</tbody>
+              </Table>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     );
   }
 }
